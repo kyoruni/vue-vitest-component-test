@@ -44,5 +44,27 @@ describe(
         expect(actualText).toContain('---');
       }
     );
+    test(
+      'Emitのテスト レベルアップ！ボタンを押下した場合',
+      async () => {
+        const propsData = {
+          id: 100,
+          name: 'ゆうしゃ',
+          level: 1,
+          skill: 'かいてんぎり',
+          note: '頑張ります！'
+        };
+        const wrapper = mount(Character, { props: propsData });
+        await wrapper.get('button').trigger('click');
+        // Emitの情報を取得
+        // 配列で返ってくる [[Emitに渡す第二引数の値]]
+        const incrementLevelEvent = wrapper.emitted('incrementLevel');
+        // Emitが1回実行されたことを検証
+        expect(incrementLevelEvent).toHaveLength(1);
+
+        const expectedIncrementLevelEvent = [[propsData.id]];
+        expect(incrementLevelEvent).toEqual(expectedIncrementLevelEvent);
+      }
+    );
   }
 );

@@ -16,7 +16,9 @@ describe(
           note: '頑張ります！'
         };
         const wrapper = mount(Character, { props: propsData});
+        //HTMLのテキスト部分だけ全部取得
         const actualText = wrapper.text();
+        // テキスト内に該当の値が含まれているかどうかを検証
         expect(actualText).toContain(String(propsData.id));
         expect(actualText).toContain(propsData.name);
         expect(actualText).toContain(String(propsData.level));

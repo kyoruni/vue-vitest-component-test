@@ -26,6 +26,13 @@ const totalLevels = computed((): number => {
   return total;
 });
 
+const onIncrementLevel = (id: number) => {
+  const character = characterList.value.get(id);
+  if (character) {
+    character.level++;
+  }
+}
+
 interface Character {
   id: number;
   name: string;
@@ -47,6 +54,7 @@ interface Character {
       :level="character.level"
       :skill="character.skill"
       :note="character.note"
+      @incrementLevel="onIncrementLevel"
     />
   </section>
 </template>

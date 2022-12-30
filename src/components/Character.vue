@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 interface Props {
   id: number;
@@ -9,9 +9,12 @@ interface Props {
   note?: string;
 }
 
-const props = defineProps<Props>();
+interface Emits {
+  (event: 'incrementLevel', id: number): void;
+}
 
-const localLevel = ref(props.level);
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
 const localNote = computed((): string => {
   let localNote = props.note;
@@ -22,7 +25,7 @@ const localNote = computed((): string => {
 });
 
 const levelUp = () => {
-  localLevel.value++;
+  emit('incrementLevel', props.id);
 };
 </script>
 
@@ -33,7 +36,7 @@ const levelUp = () => {
       <dt>ID：</dt>
       <dd>{{ id }}</dd>
       <dt>レベル：</dt>
-      <dd>{{ localLevel }}</dd>
+      <dd>{{ level }}</dd>
       <dt>スキル：</dt>
       <dd>{{ skill }}</dd>
       <dt>メモ：</dt>

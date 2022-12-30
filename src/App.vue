@@ -1,47 +1,52 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from 'vue';
+import Character from '@/components/Character.vue';
+
+const characterListInit = new Map<number, Character>();
+characterListInit.set(100, {
+  id: 100,
+  name: 'ゆうしゃ',
+  level: 1,
+  skill: 'かいてんぎり',
+  note: '頑張ります！'
+});
+characterListInit.set(101, {
+  id: 101,
+  name: 'まほうつかい',
+  level: 5,
+  skill: 'ファイア'
+});
+const characterList = ref(characterListInit);
+
+const totalLevels = computed((): number => {
+  let total = 0;
+  for (const character of characterList.value.values()) {
+    total += character.level;
+  }
+  return total;
+});
+
+interface Character {
+  id: number;
+  name: string;
+  level: number;
+  skill: string,
+  note?: string;
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <section>
+    <h1>キャラクター一覧</h1>
+    <p>全員のレベル合計：{{ totalLevels }}</p>
+    <Character
+      v-for="[id, character] in characterList"
+      :key="id"
+      :id="character.id"
+      :name="character.name"
+      :level="character.level"
+      :skill="character.skill"
+      :note="character.note"
+    />
+  </section>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
